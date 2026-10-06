@@ -45,9 +45,6 @@ public class Vehicule {
     @JoinColumn(name = "id_agence")
     private Agence agence;
 
-    @OneToMany(mappedBy = "vehicule")
-    private List<Maintenance> maintenances;
-
     @ManyToMany
     @JoinTable(
             name = "vehicule_equipement",
