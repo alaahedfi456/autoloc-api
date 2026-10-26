@@ -1,0 +1,40 @@
+$kind: http-request
+url: "{{baseUrl}}/api/contrats"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "dateSignature": "2026-11-02",
+      "montantTotal": 480.00,
+      "valide": true,
+      "paiements": [
+        {
+          "montant": 150.00,
+          "datePaiement": "2026-11-02",
+          "modePaiement": "CARTE"
+        },
+        {
+          "montant": 330.00,
+          "datePaiement": "2026-11-06",
+          "modePaiement": "VIREMENT"
+        }
+      ]
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Statut 201", () => pm.response.to.have.status(201));
+      var json = pm.response.json();
+      pm.test("Contrat avec 2 paiements persistés", () => {
+          pm.expect(json.idContrat).to.be.above(0);
+          pm.expect(json.paiements).to.be.an("array").with.lengthOf(2);
+          pm.environment.set("contratId", json.idContrat);
+          if (json.paiements.length > 0) {
+              pm.environment.set("paiementId", json.paiements[0].idPaiement);
+          }
+      });
+    language: text/javascript
+order: 5000

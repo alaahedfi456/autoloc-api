@@ -1,0 +1,24 @@
+$kind: http-request
+url: "{{baseUrl}}/api/vehicules"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "immatriculation": "210-TN-8899",
+      "marque": "Volkswagen",
+      "modele": "Golf 8",
+      "categorie": "BERLINE",
+      "tarifJournalier": 120.00,
+      "statut": "DISPONIBLE",
+      "agence": {
+        "idAgence": 1
+      }
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test("Statut 201", () => pm.response.to.have.status(201));
+    language: text/javascript
+order: 2000

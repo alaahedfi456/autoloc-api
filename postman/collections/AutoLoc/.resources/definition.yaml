@@ -1,0 +1,2 @@
+$kind: collection
+description: "Collection complète pour l'Atelier 5 AutoLoc : CRUD complet des 8 entités modifiables, Paiement en lecture seule, codes d'erreurs HTTP 400, 404, 405 et scénario cascade Contrat -> Paiement."

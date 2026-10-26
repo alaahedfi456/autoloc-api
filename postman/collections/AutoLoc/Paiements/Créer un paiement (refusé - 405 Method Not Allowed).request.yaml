@@ -1,0 +1,23 @@
+$kind: http-request
+name: Créer un paiement (refusé -> 405 Method Not Allowed)
+url: "{{baseUrl}}/api/paiements"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "montant": 150.00,
+      "datePaiement": "2026-11-02",
+      "modePaiement": "CARTE"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Statut 405 Method Not Allowed", () => pm.response.to.have.status(405));
+      pm.test("Format d'erreur JSON avec statut 405", () => {
+          pm.expect(pm.response.json().statut).to.eql(405);
+      });
+    language: text/javascript
+order: 4000
